@@ -187,7 +187,7 @@ class IrUiMenu(models.Model):
             next_num = int(match.group(1)) + 1
             record.name = NUMBER_PARENS.sub('(%d)' % next_num, record.name)
         else:
-            record.name = record.name + '(1)'
+            record.name += '(1)'
         return record
 
     @api.model

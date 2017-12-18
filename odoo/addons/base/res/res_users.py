@@ -330,7 +330,7 @@ class Users(models.Model):
 
     @api.multi
     def write(self, values):
-        if values.get('active') == False:
+        if not values.get('active'):
             for user in self:
                 if user.id == SUPERUSER_ID:
                     raise UserError(_("You cannot deactivate the admin user."))

@@ -269,7 +269,7 @@ class TestAPI(common.TransactionCase):
         self.env.cache.check(self.env)
 
         # check recordsets
-        self.assertEqual(set(partner1.child_ids), set(children1) - set([child]))
+        self.assertEqual(set(partner1.child_ids), set(children1) - {child})
         self.assertEqual(set(partner2.child_ids), set(children2))
         self.env.cache.check(self.env)
 

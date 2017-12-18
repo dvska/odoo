@@ -56,68 +56,18 @@ FnExprTokens = ['(', '{', '[', 'in', 'typeof', 'instanceof', 'new',
                     '|', '^', '!', '~', '&&', '||', '?', ':', '===', '==', '>=',
                     '<=', '<', '>', '!=', '!==']
 
-syntax= set(('AssignmentExpression',
-         'AssignmentPattern',
-         'ArrayExpression',
-         'ArrayPattern',
-         'ArrowFunctionExpression',
-         'BlockStatement',
-         'BinaryExpression',
-         'BreakStatement',
-         'CallExpression',
-         'CatchClause',
-         'ClassBody',
-         'ClassDeclaration',
-         'ClassExpression',
-         'ConditionalExpression',
-         'ContinueStatement',
-         'DoWhileStatement',
-         'DebuggerStatement',
-         'EmptyStatement',
-         'ExportAllDeclaration',
-         'ExportDefaultDeclaration',
-         'ExportNamedDeclaration',
-         'ExportSpecifier',
-         'ExpressionStatement',
-         'ForStatement',
-         'ForInStatement',
-         'FunctionDeclaration',
-         'FunctionExpression',
-         'Identifier',
-         'IfStatement',
-         'ImportDeclaration',
-         'ImportDefaultSpecifier',
-         'ImportNamespaceSpecifier',
-         'ImportSpecifier',
-         'Literal',
-         'LabeledStatement',
-         'LogicalExpression',
-         'MemberExpression',
-         'MethodDefinition',
-         'NewExpression',
-         'ObjectExpression',
-         'ObjectPattern',
-         'Program',
-         'Property',
-         'RestElement',
-         'ReturnStatement',
-         'SequenceExpression',
-         'SpreadElement',
-         'Super',
-         'SwitchCase',
-         'SwitchStatement',
-         'TaggedTemplateExpression',
-         'TemplateElement',
-         'TemplateLiteral',
-         'ThisExpression',
-         'ThrowStatement',
-         'TryStatement',
-         'UnaryExpression',
-         'UpdateExpression',
-         'VariableDeclaration',
-         'VariableDeclarator',
-         'WhileStatement',
-         'WithStatement'))
+syntax= {'AssignmentExpression', 'AssignmentPattern', 'ArrayExpression', 'ArrayPattern', 'ArrowFunctionExpression',
+         'BlockStatement', 'BinaryExpression', 'BreakStatement', 'CallExpression', 'CatchClause', 'ClassBody',
+         'ClassDeclaration', 'ClassExpression', 'ConditionalExpression', 'ContinueStatement', 'DoWhileStatement',
+         'DebuggerStatement', 'EmptyStatement', 'ExportAllDeclaration', 'ExportDefaultDeclaration',
+         'ExportNamedDeclaration', 'ExportSpecifier', 'ExpressionStatement', 'ForStatement', 'ForInStatement',
+         'FunctionDeclaration', 'FunctionExpression', 'Identifier', 'IfStatement', 'ImportDeclaration',
+         'ImportDefaultSpecifier', 'ImportNamespaceSpecifier', 'ImportSpecifier', 'Literal', 'LabeledStatement',
+         'LogicalExpression', 'MemberExpression', 'MethodDefinition', 'NewExpression', 'ObjectExpression',
+         'ObjectPattern', 'Program', 'Property', 'RestElement', 'ReturnStatement', 'SequenceExpression',
+         'SpreadElement', 'Super', 'SwitchCase', 'SwitchStatement', 'TaggedTemplateExpression', 'TemplateElement',
+         'TemplateLiteral', 'ThisExpression', 'ThrowStatement', 'TryStatement', 'UnaryExpression', 'UpdateExpression',
+         'VariableDeclaration', 'VariableDeclarator', 'WhileStatement', 'WithStatement'}
 
 
 # Error messages should be identical to V8.
@@ -229,17 +179,14 @@ UNICODE_LETTER = set(U_CATEGORIES['Lu']+U_CATEGORIES['Ll']+
 UNICODE_COMBINING_MARK = set(U_CATEGORIES['Mn']+U_CATEGORIES['Mc'])
 UNICODE_DIGIT = set(U_CATEGORIES['Nd'])
 UNICODE_CONNECTOR_PUNCTUATION = set(U_CATEGORIES['Pc'])
-IDENTIFIER_START = UNICODE_LETTER.union(set(('$','_', '\\'))) # and some fucking unicode escape sequence
+IDENTIFIER_START = UNICODE_LETTER.union({'$', '_', '\\'}) # and some fucking unicode escape sequence
 IDENTIFIER_PART = IDENTIFIER_START.union(UNICODE_COMBINING_MARK).union(UNICODE_DIGIT)\
-    .union(UNICODE_CONNECTOR_PUNCTUATION).union(set((ZWJ, ZWNJ)))
+    .union(UNICODE_CONNECTOR_PUNCTUATION).union({ZWJ, ZWNJ})
 
-WHITE_SPACE = set((0x20, 0x09, 0x0B, 0x0C, 0xA0, 0x1680,
-               0x180E, 0x2000, 0x2001, 0x2002, 0x2003,
-                0x2004, 0x2005, 0x2006, 0x2007, 0x2008,
-                0x2009, 0x200A, 0x202F, 0x205F, 0x3000,
-                0xFEFF))
+WHITE_SPACE = {0x20, 0x09, 0x0B, 0x0C, 0xA0, 0x1680, 0x180E, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006,
+               0x2007, 0x2008, 0x2009, 0x200A, 0x202F, 0x205F, 0x3000, 0xFEFF}
 
-LINE_TERMINATORS = set((0x0A, 0x0D, 0x2028, 0x2029))
+LINE_TERMINATORS = {0x0A, 0x0D, 0x2028, 0x2029}
 
 def isIdentifierStart(ch):
     return (ch if isinstance(ch, unicode) else unichr(ch))  in IDENTIFIER_START
@@ -253,8 +200,8 @@ def isWhiteSpace(ch):
 def isLineTerminator(ch):
     return (ord(ch) if isinstance(ch, unicode) else ch)  in LINE_TERMINATORS
 
-OCTAL = set(('0', '1', '2', '3', '4', '5', '6', '7'))
-DEC = set(('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
+OCTAL = {'0', '1', '2', '3', '4', '5', '6', '7'}
+DEC = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
 HEX = set('0123456789abcdefABCDEF')
 HEX_CONV = dict(('0123456789abcdef'[n],n) for n in xrange(16))
 for i,e in enumerate('ABCDEF', 10):
@@ -274,7 +221,7 @@ def isFutureReservedWord(w):
     return w in ('enum', 'export', 'import', 'super')
 
 
-RESERVED_WORD = set(('implements', 'interface', 'package', 'private', 'protected', 'public', 'static', 'yield', 'let'))
+RESERVED_WORD = {'implements', 'interface', 'package', 'private', 'protected', 'public', 'static', 'yield', 'let'}
 def isStrictModeReservedWord(w):
     return w in RESERVED_WORD
 
@@ -282,10 +229,10 @@ def isRestrictedWord(w):
     return w in  ('eval', 'arguments')
 
 
-KEYWORDS = set(('if', 'in', 'do', 'var', 'for', 'new', 'try', 'let', 'this', 'else', 'case',
-                     'void', 'with', 'enum', 'while', 'break', 'catch', 'throw', 'const', 'yield',
-                     'class', 'super', 'return', 'typeof', 'delete', 'switch', 'export', 'import',
-                     'default', 'finally', 'extends', 'function', 'continue', 'debugger', 'instanceof', 'pyimport'))
+KEYWORDS = {'if', 'in', 'do', 'var', 'for', 'new', 'try', 'let', 'this', 'else', 'case', 'void', 'with', 'enum',
+            'while', 'break', 'catch', 'throw', 'const', 'yield', 'class', 'super', 'return', 'typeof', 'delete',
+            'switch', 'export', 'import', 'default', 'finally', 'extends', 'function', 'continue', 'debugger',
+            'instanceof', 'pyimport'}
 def isKeyword(w):
         # 'const' is specialized as Keyword in V8.
         # 'yield' and 'let' are for compatibility with SpiderMonkey and ES.next.

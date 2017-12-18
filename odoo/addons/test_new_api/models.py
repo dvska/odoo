@@ -164,7 +164,7 @@ class Message(models.Model):
         # would fail, because self.double_size would be undefined.
         self.double_size = 0
         size = self.size
-        self.double_size = self.double_size + size
+        self.double_size += size
 
     @api.one
     @api.depends('author', 'author.partner_id')

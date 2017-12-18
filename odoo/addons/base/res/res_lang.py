@@ -216,7 +216,7 @@ class Lang(models.Model):
         lang_codes = self.mapped('code')
         if 'code' in vals and any(code != vals['code'] for code in lang_codes):
             raise UserError(_("Language code cannot be modified."))
-        if vals.get('active') == False:
+        if not vals.get('active'):
             if self.env['res.users'].search([('lang', 'in', lang_codes)]):
                 raise UserError(_("Cannot unactivate a language that is currently used by users."))
             # delete linked ir.default specifying default partner's language

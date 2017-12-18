@@ -108,7 +108,7 @@ class _Cleaner(clean.Cleaner):
                     node.insert(node_idx, new_node)
                 child_node = new_node
                 idx = item.end()
-                node_idx = node_idx + 1
+                node_idx += 1
 
         el_class = el.get('class', '') or ''
         el_id = el.get('id', '') or ''

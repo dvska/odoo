@@ -121,7 +121,7 @@ class CountryState(models.Model):
         if args is None:
             args = []
         if self.env.context.get('country_id'):
-            args = args + [('country_id', '=', self.env.context.get('country_id'))]
+            args += [('country_id', '=', self.env.context.get('country_id'))]
         firsts_records = self.search([('code', '=ilike', name)] + args, limit=limit)
         search_domain = [('name', operator, name)]
         search_domain.append(('id', 'not in', firsts_records.ids))

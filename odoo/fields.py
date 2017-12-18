@@ -16,6 +16,7 @@ try:
     from xmlrpc.client import MAXINT
 except ImportError:
     #pylint: disable=bad-python3-import
+    # noinspection PyCompatibility
     from xmlrpclib import MAXINT
 
 import psycopg2
@@ -2232,7 +2233,7 @@ class One2many(_RelationalMulti):
         inverse = self.inverse_name
         get_id = (lambda rec: rec.id) if comodel._fields[inverse].type == 'many2one' else int
         domain = self.domain(records) if callable(self.domain) else self.domain
-        domain = domain + [(inverse, 'in', records.ids)]
+        domain += [(inverse, 'in', records.ids)]
         lines = comodel.search(domain, limit=self.limit)
 
         # group lines by inverse field (without prefetching other fields)
@@ -2245,6 +2246,9 @@ class One2many(_RelationalMulti):
         cache = records.env.cache
         for record in records:
             cache.set(record, self, tuple(group[record.id]))
+
+    def convert_to_display_name(self, value, record):
+        pass
 
     def write(self, records, value, create=False):
         comodel = records.env[self.comodel_name].with_context(**self.context)
@@ -2274,7 +2278,7 @@ class One2many(_RelationalMulti):
                         line.write({inverse: record.id})
                 elif act[0] == 5:
                     domain = self.domain(records) if callable(self.domain) else self.domain
-                    domain = domain + [(inverse, 'in', records.ids)]
+                    domain += [(inverse, 'in', records.ids)]
                     inverse_field = comodel._fields[inverse]
                     if inverse_field.ondelete == 'cascade':
                         comodel.search(domain).unlink()
@@ -2284,7 +2288,7 @@ class One2many(_RelationalMulti):
                     record = records[-1]
                     comodel.browse(act[2]).write({inverse: record.id})
                     domain = self.domain(records) if callable(self.domain) else self.domain
-                    domain = domain + [(inverse, 'in', records.ids), ('id', 'not in', act[2] or [0])]
+                    domain += [(inverse, 'in', records.ids), ('id', 'not in', act[2] or [0])]
                     inverse_field = comodel._fields[inverse]
                     if inverse_field.ondelete == 'cascade':
                         comodel.search(domain).unlink()
@@ -2322,6 +2326,10 @@ class Many2many(_RelationalMulti):
         :param limit: optional limit to use upon read (integer)
 
     """
+
+    def convert_to_display_name(self, value, record):
+        pass
+
     type = 'many2many'
     _slots = {
         'relation': None,               # name of table

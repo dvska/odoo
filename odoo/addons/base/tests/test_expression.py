@@ -416,9 +416,9 @@ class TestExpression(TransactionCase):
         self.assertEqual([], Partner.search([('user_ids', 'in', [10000])]).ids, "o2m NOT IN matches none on the right side")
         self.assertEqual([p1,p2], Partner.search([('user_ids', 'in', [u1a,u2])]).ids, "o2m IN matches any on the right side")
         all_ids = Partner.search([]).ids
-        self.assertEqual(set(all_ids) - set([p1]), set(Partner.search([('user_ids', 'not in', u1a)]).ids), "o2m NOT IN matches none on the right side")
-        self.assertEqual(set(all_ids) - set([p1]), set(Partner.search([('user_ids', '!=', 'Dédé Boitaclou')]).ids), "o2m NOT IN matches none on the right side")
-        self.assertEqual(set(all_ids) - set([p1,p2]), set(Partner.search([('user_ids', 'not in', [u1b, u2])]).ids), "o2m NOT IN matches none on the right side")
+        self.assertEqual(set(all_ids) - {p1}, set(Partner.search([('user_ids', 'not in', u1a)]).ids), "o2m NOT IN matches none on the right side")
+        self.assertEqual(set(all_ids) - {p1}, set(Partner.search([('user_ids', '!=', 'Dédé Boitaclou')]).ids), "o2m NOT IN matches none on the right side")
+        self.assertEqual(set(all_ids) - {p1, p2}, set(Partner.search([('user_ids', 'not in', [u1b, u2])]).ids), "o2m NOT IN matches none on the right side")
 
     def test_15_equivalent_one2many_2(self):
         Currency = self.env['res.currency']
