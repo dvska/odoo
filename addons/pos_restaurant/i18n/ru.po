@@ -209,7 +209,7 @@ msgstr "Создан"
 #: code:addons/pos_restaurant/static/src/xml/printbill.xml:91
 #, python-format
 msgid "Discount:"
-msgstr "Descuento:"
+msgstr "Скидка:"
 
 #. module: pos_restaurant
 #. openerp-web
